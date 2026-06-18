@@ -43,5 +43,3 @@ test ('User cannot login with emptycredentials', async ({ page}) => {
     // await page.waitForTimeout(3000);
 }); 
 
-
-
