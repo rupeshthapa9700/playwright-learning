@@ -1,0 +1,26 @@
+const {test, expect} = require('@playwright/test');
+
+test.beforeEach(async({page}) => {
+    await page.goto('https://demo.playwright.dev/todomvc/');
+});
+
+test ('Add multiple TODO items', async ({ page }) => {
+    const todoInput = page.getByPlaceholder('What needs to be done?');
+
+    await todoInput.fill('Learning Playwright');
+    await todoInput.press('Enter');
+
+    await todoInput.fill('Learning QA');
+    await todoInput.press('Enter');
+
+    await todoInput.fill('Learning Automation');
+    await todoInput.press('Enter');
+
+    await expect(page.getByText('Learning Playwright')).toBeVisible();
+
+    await expect(page.getByText('Learning QA')).toBeVisible();
+
+    await expect(page.getByText('Learning Automation')).toBeVisible();
+
+    await page.waitForTimeout(3000);
+});
