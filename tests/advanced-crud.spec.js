@@ -22,5 +22,8 @@ test ('Add multiple TODO items', async ({ page }) => {
 
     await expect(page.getByText('Learning Automation')).toBeVisible();
 
+    const items = page.locator('.todo-list li');
+    await expect(items).toHaveCount(3);
+
     await page.waitForTimeout(3000);
 });
