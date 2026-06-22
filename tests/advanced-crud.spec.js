@@ -27,3 +27,33 @@ test ('Add multiple TODO items', async ({ page }) => {
 
     await page.waitForTimeout(3000);
 });
+
+test ('Edit Specific Item', async({ page }) => {
+    const todoInput = page.getByPlaceholder('What needs to be done?');
+
+    await todoInput.fill('Learning Playwright');
+    await todoInput.press('Enter');
+
+    await todoInput.fill('Learning QA');
+    await todoInput.press('Enter');
+
+    await todoInput.fill('Learning Automation');
+    await todoInput.press('Enter');
+
+    const qaItem = page.locator('.todo-list li').filter({hasText: 'Learning QA'});
+    await qaItem.dblclick();
+
+    await qaItem.locator('.edit').fill('Advanced QA');
+    await qaItem.locator('.edit').press('Enter');
+
+    await expect(page.getByText('Learning Playwright')).toBeVisible();
+    await expect(page.getByText('Advanced QA')).toBeVisible();
+    await expect(page.getByText('Learning QA')).not.toBeVisible();
+    await expect(page.getByText('Learning Automation')).toBeVisible();
+
+    await page.waitForTimeout(3000);
+
+    
+
+    
+});
