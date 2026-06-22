@@ -44,6 +44,11 @@ test('UI', async({ page }) => {
 // });
 
 test('Submit', async({page}) => {
+    
+    const rows = page.locator('tbody, tr');
+    const beforeCount = await rows.count();
+
+
     await page.getByRole('button', {name: 'Add'}).click();
     await page.getByPlaceholder('First Name').fill('Rupesh');
     await page.getByPlaceholder('Last Name').fill('Thapa');
@@ -62,7 +67,8 @@ test('Submit', async({page}) => {
     await expect(page.getByRole('cell', {name: '5000', exact: true})).toBeVisible();
     await expect(page.getByRole('cell', {name: 'QA', exact: true})).toBeVisible();
 
-
+    const afterCount = await rows.count();
+    expect(afterCount).toBe(beforeCount + 1);
     await page.waitForTimeout(3000);
 
 
