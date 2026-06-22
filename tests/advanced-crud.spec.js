@@ -52,8 +52,29 @@ test ('Edit Specific Item', async({ page }) => {
     await expect(page.getByText('Learning Automation')).toBeVisible();
 
     await page.waitForTimeout(3000);
+});
 
-    
+test ('Deleting Specific Item', async({ page }) => {
+    const todoInput = page.getByPlaceholder('What needs to be done?');
 
-    
+    await todoInput.fill('Learning Playwright');
+    await todoInput.press('Enter');
+
+    await todoInput.fill('Learning QA');
+    await todoInput.press('Enter');
+
+    await todoInput.fill('Learning Automation');
+    await todoInput.press('Enter');
+
+    const automationItem = page.locator('.todo-list li').filter({hasText: 'Learning Automation'});
+    await automationItem.hover();
+
+    await automationItem.locator('.destroy').click();
+
+    await expect(page.getByText('Learning Automation')).not.toBeVisible();
+
+    await expect(page.getByText('Learning Playwright')).toBeVisible();
+
+    await expect(page.getByText('Learning QA')).toBeVisible();
+    await page.waitForTimeout(3000);
 });
