@@ -4,7 +4,7 @@ test.beforeEach(async({page}) => {
     await page.goto('https://demoqa.com/webtables');
 });
 
-test('Creating on table', async({ page }) => {
+test('UI', async({ page }) => {
     await page.getByRole('button', {name: 'Add'}).click();
 
     
@@ -30,3 +30,11 @@ test('Creating on table', async({ page }) => {
     await expect(modal.getByRole('button', {name: 'Submit'})).toBeVisible();
     await page.waitForTimeout(3000);
 });
+
+//   test('Validation', async({ page }) => {
+//   await page.getByRole('button', { name: 'Log in' }).click();
+//   await page.getByRole('button', { name: 'Submit' }).click();
+//   const errorMessage = page.locator('.invalid-feedback'); // Change class to match your site
+//   await expect(errorMessage).toBeVisible();
+//   await expect(errorMessage).toHaveText('This field is required');
+// });
