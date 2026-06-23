@@ -69,9 +69,27 @@ test('Submit', async({page}) => {
 
     const afterCount = await rows.count();
     expect(afterCount).toBe(beforeCount + 1);
+
+    const row = page.locator('tbody tr').filter({hasText: 'Rupesh'});
+    
+    await row.getByTitle('Edit').click();
+
+    await expect(page.locator('.modal-content')).toBeVisible();
+
+    // await page.waitForTimeout(3000);
     await page.waitForTimeout(3000);
 
 
 });
+
+// test('Edit', async({page}) => {
+//     const row = page.locator('tbody tr').filter({hasText: 'Rupesh'});
+    
+//     await row.getByTitle('Edit').click();
+
+//     await expect(page.locator('.modal-content')).toBeVisible();
+
+//     await page.waitForTimeout(3000);
+// })
 
 
