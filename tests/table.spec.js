@@ -110,4 +110,38 @@ test('Edit', async ({ page }) => {
     await page.waitForTimeout(3000);
 });
 
+test('Delete', async({ page }) => {
+
+    const rows = page.locator('tbody tr');
+    const beforeCount = await rows.count();
+    await page.getByRole('button', {name: 'Add'}).click();
+
+    await page.getByPlaceholder('First Name').fill('Rupesh');
+    await page.getByPlaceholder('Last Name').fill('Thapa');
+    await page.getByPlaceholder('name@example.com').fill('rupesh@gmail.com');
+    await page.getByPlaceholder('Age').fill('25');
+    await page.getByPlaceholder('Salary').fill('5000');
+    await page.getByPlaceholder('Department').fill('QA');
+
+    await page.getByRole('button', {name: 'Submit'}).click();
+
+    const afterCreateCount = await rows.count();
+    expect(afterCreateCount).toBe(beforeCount + 1);
+
+
+    const row = page.locator('tbody tr').filter({hasText: 'Rupesh'});
+    
+    await expect(row).toBeVisible();
+
+    await row.getByTitle('Delete').click();
+
+    const afterDeleteCount = await rows.count();
+    expect(afterDeleteCount).toBe(beforeCount);
+
+    await expect(row).toHaveCount(0);
+
+    await page.waitForTimeout(3000);
+
+
+});
 
