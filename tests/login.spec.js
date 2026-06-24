@@ -15,7 +15,7 @@ test('User can login with valid credentials', async ({ page}) => {
 
     await expect(page).toHaveURL(/inventory/);
 
-    // await page.waitForTimeout(3000);
+    await page.waitForTimeout(3000);
 
 }); 
 
@@ -30,7 +30,7 @@ test('User cannot loginwith invalid credentials', async ({ page}) => {
 
     await expect(page.locator('[data-test="error"]')).toBeVisible();
 
-    // await page.waitForTimeout(3000);
+    await page.waitForTimeout(3000);
 });
 
 test ('User cannot login with emptycredentials', async ({ page}) => {
@@ -40,6 +40,6 @@ test ('User cannot login with emptycredentials', async ({ page}) => {
 
     await expect(page.locator('[data-test="error"]')).toBeVisible();
 
-    // await page.waitForTimeout(3000);
+    await page.waitForTimeout(3000);
 }); 
 

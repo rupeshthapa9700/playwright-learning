@@ -70,11 +70,6 @@ test('Submit', async({page}) => {
     const afterCount = await rows.count();
     expect(afterCount).toBe(beforeCount + 1);
 
-    const row = page.locator('tbody tr').filter({hasText: 'Rupesh'});
-    
-    await row.getByTitle('Edit').click();
-
-    await expect(page.locator('.modal-content')).toBeVisible();
 
     // await page.waitForTimeout(3000);
     await page.waitForTimeout(3000);
@@ -82,14 +77,37 @@ test('Submit', async({page}) => {
 
 });
 
-// test('Edit', async({page}) => {
-//     const row = page.locator('tbody tr').filter({hasText: 'Rupesh'});
+test('Edit', async ({ page }) => {
+
+    await page.getByRole('button', {name: 'Add'}).click();
+
+    await page.getByPlaceholder('First Name').fill('Rupesh');
+    await page.getByPlaceholder('Last Name').fill('Thapa');
+    await page.getByPlaceholder('name@example.com').fill('rupesh@gmail.com');
+    await page.getByPlaceholder('Age').fill('25');
+    await page.getByPlaceholder('Salary').fill('5000');
+    await page.getByPlaceholder('Department').fill('QA');
+
+    await page.getByRole('button', {name: 'Submit'}).click();
+
+    // NOW edit it
+    const row = page.locator('tbody tr').filter({ hasText: 'Rupesh' });
+
+    await row.getByTitle('Edit').click();
+
+    const modal = page.locator('.modal-content');
+    await expect(modal).toBeVisible();
+
+    await page.getByPlaceholder('Salary').fill('10000');
+    await page.getByRole('button', {name: 'Submit'}).click();
     
-//     await row.getByTitle('Edit').click();
+    await expect(modal).not.toBeVisible();
 
-//     await expect(page.locator('.modal-content')).toBeVisible();
+    const updatedRow = page.locator('tbody tr').filter({hasText: 'Rupesh'});
 
-//     await page.waitForTimeout(3000);
-// })
+    await expect(updatedRow).toContainText('10000');
+
+    await page.waitForTimeout(3000);
+});
 
 
